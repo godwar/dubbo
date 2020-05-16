@@ -3,18 +3,20 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
         xsi:schemaLocation="http://www.springframework.org/schema/beans        http://www.springframework.org/schema/beans/spring-beans-4.3.xsd        http://dubbo.apache.org/schema/dubbo        http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
+ <!-- 提供方应用信息，用于计算依赖关系 -->
+ <dubbo:application name="demo-service"/>
 
-<dubbo:application name="demo-service"/>
+ <!-- 暂时未使用注册中心 -->
+ <dubbo:registry   address="N/A" />
 
- <dubbo:registry id="rg1"  address="zookeeper://192.168.199.134:2181" />
-
+ <!-- 用dubbo协议在20880端口暴露服务 -->
  <dubbo:protocol name="dubbo" port="20880"/>
 
- <dubbo:protocol name="webservice" port = "8099" server ="jetty"/>
+ <!-- 声明需要暴露的服务接口 -->
+ <dubbo:service interface="com.godwar.dubbo.IEatService" ref="eatService"  />
+ <dubbo:service interface="com.godwar.dubbo.ISleepService" ref="sleepService"/>
 
- <dubbo:service interface="com.godwar.dubbo.IEatService" ref="eatService" protocol="dubbo" registry="rg1"/>
- <dubbo:service interface="com.godwar.dubbo.ISleepService" ref="sleepService" protocol="webservice"  />
-
+ <!-- 和本地bean一样实现服务 -->
  <bean id="eatService" class="com.godwar.dubbo.EatServiceImpl"/>
  <bean id="sleepService" class="com.godwar.dubbo.SleepServiceImpl"/>
 </beans>

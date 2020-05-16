@@ -4,10 +4,14 @@
        xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
        xsi:schemaLocation="http://www.springframework.org/schema/beans        http://www.springframework.org/schema/beans/spring-beans-4.3.xsd        http://dubbo.apache.org/schema/dubbo        http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
 
+    <!-- 消费方应用名，用于计算依赖关系，不是匹配条件，不要与提供方一样 -->
     <dubbo:application name="animal-service"/>
-    <dubbo:registry id="rg1"  address="zookeeper://192.168.199.134:2181" />
 
-    <!-- 声明需要暴露的服务接口 -->
-    <dubbo:reference interface="com.godwar.dubbo.IEatService" id="eatService" registry="rg1"/>
+     <!--未使用注册中心-->
+    <dubbo:registry   address="N/A" />
+
+    <!-- 生成远程服务代理，可以和本地bean一样使用demoService -->
+    <dubbo:reference interface="com.godwar.dubbo.IEatService" id="eatService"
+                     url="dubbo://localhost:20880/com.godwar.dubbo.IEatService"/>
 
  </beans>
